@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALT Prestações de Serviços - Gestão & Orçamentos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        greenDark: '#064e3b',
+                        greenMain: '#059669',
+                        greenLight: '#10b981',
+                        slateDark: '#1e293b',
+                        slateCard: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- CABEÇALHO -->
+    <header class="bg-greenDark text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-2 rounded-lg text-greenDark font-bold text-xl shadow">
+                    <i class="fa-solid fa-seedling"></i> ALT
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide">ALT Prestações de Serviços</h1>
+                    <p class="text-xs text-emerald-200">Jardinagem, Limpezas e Manutenção Profissional</p>
+                </div>
+            </div>
+            <!-- Navegação por Abas -->
+            <nav class="flex flex-wrap justify-center gap-2">
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium bg-greenMain text-white transition shadow"><i class="fa-solid fa-chart-pie mr-1"></i> Dashboard</button>
+                <button onclick="switchTab('kanban')" id="btn-kanban" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-900 text-emerald-100 hover:bg-greenMain transition"><i class="fa-solid fa-columns mr-1"></i> Kanban & Ordens</button>
+                <button onclick="switchTab('orcamentos')" id="btn-orcamentos" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-900 text-emerald-100 hover:bg-greenMain transition"><i class="fa-solid fa-cart-shopping mr-1"></i> Compras & Orçamentos</button>
+                <button onclick="switchTab('agenda')" id="btn-agenda" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-900 text-emerald-100 hover:bg-greenMain transition"><i class="fa-solid fa-wallet mr-1"></i> Agenda & Financeiro</button>
+                <button onclick="switchTab('frota')" id="btn-frota" class="tab-btn px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-900 text-emerald-100 hover:bg-greenMain transition"><i class="fa-solid fa-truck-pickup mr-1"></i> Frota & Ferramentas</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- ABA 1: DASHBOARD -->
+        <section id="tab-dashboard" class="tab-content space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-greenMain">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Total a Receber / Faturar</p>
+                    <h3 class="text-2xl font-bold text-slateDark mt-1">R$ 1.620,00</h3>
+                    <span class="text-xs text-emerald-600 font-medium"><i class="fa-solid fa-arrow-up"></i> Atualizado hoje</span>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-amber-500">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Serviços em Andamento</p>
+                    <h3 class="text-2xl font-bold text-slateDark mt-1">3 Ativos</h3>
+                    <span class="text-xs text-amber-600 font-medium">Equipes em campo</span>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-blue-500">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Gastos Ferramentas/Insumos</p>
+                    <h3 class="text-2xl font-bold text-slateDark mt-1">R$ 450,00</h3>
+                    <span class="text-xs text-blue-600 font-medium">Orçamento pendente</span>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-purple-500">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Manutenção Frota (Strada)</p>
+                    <h3 class="text-2xl font-bold text-slateDark mt-1">Revisão OK</h3>
+                    <span class="text-xs text-purple-600 font-medium">Próxima troca: 10.000km</span>
+                </div>
+            </div>
+
+            <!-- Banner Informativo / Atalho Rápido -->
+            <div class="bg-gradient-to-r from-greenDark to-greenMain rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold">Bem-vindo ao Painel ALT Prestações</h2>
+                    <p class="text-emerald-100 text-sm mt-1">Gerencie seus orçamentos de jardinagem, acompanhe o fluxo de ordens de serviço e controle seu financeiro em tempo real.</p>
+                </div>
+                <button onclick="switchTab('kanban')" class="bg-white text-greenDark px-5 py-2.5 rounded-xl font-bold text-sm shadow hover:bg-emerald-50 transition">Ver Ordens de Serviço</button>
+            </div>
+        </section>
+
+        <!-- ABA 2: KANBAN / FLUXO OPERACIONAL -->
+        <section id="tab-kanban" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slateDark"><i class="fa-solid fa-columns text-greenMain mr-2"></i> Fluxo de Ordens de Serviço</h2>
+                <button onclick="alert('Funcionalidade de Adicionar Nova OS')" class="bg-greenMain text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-700 transition shadow"><i class="fa-solid fa-plus mr-1"></i> Nova OS</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Coluna 1 -->
+                <div class="bg-slate-200/70 p-4 rounded-xl flex flex-col gap-4">
+                    <div class="flex justify-between items-center font-bold text-slate-700">
+                        <span><i class="fa-solid fa-clipboard-list text-amber-600 mr-1"></i> Agendamento / Vistoria</span>
+                        <span class="bg-white px-2 py-0.5 rounded text-xs shadow-sm">2</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative">
+                            <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-semibold">Jardinagem</span>
+                            <h4 class="font-bold text-sm mt-1">Manutenção de Canteiro - Condomínio</h4>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i> Fábio</p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                                <span class="font-bold text-green-700">R$ 300,00</span>
+                                <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded">Pendente</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative">
+                            <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-semibold">Limpeza</span>
+                            <h4 class="font-bold text-sm mt-1">Limpeza Pós-Obra - Residencial</h4>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i> Andreia</p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                                <span class="font-bold text-green-700">R$ 220,00</span>
+                                <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded">Pendente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna 2 -->
+                <div class="bg-slate-200/70 p-4 rounded-xl flex flex-col gap-4">
+                    <div class="flex justify-between items-center font-bold text-slate-700">
+                        <span><i class="fa-solid fa-spinner text-blue-600 mr-1"></i> Em Processo (Execução)</span>
+                        <span class="bg-white px-2 py-0.5 rounded text-xs shadow-sm">2</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative">
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">Terreno / Gramado</span>
+                            <h4 class="font-bold text-sm mt-1">Limpeza de Terreno e Roçagem</h4>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i> Mauro</p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                                <span class="font-bold text-green-700">R$ 230,00</span>
+                                <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-bold">Pago</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative">
+                            <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-semibold">Salão de Festas</span>
+                            <h4 class="font-bold text-sm mt-1">Gestão e Limpeza - Evento</h4>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i> Bob Kids</p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                                <span class="font-bold text-green-700">A Faturar</span>
+                                <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded">Em Aberto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna 3 -->
+                <div class="bg-slate-200/70 p-4 rounded-xl flex flex-col gap-4">
+                    <div class="flex justify-between items-center font-bold text-slate-700">
+                        <span><i class="fa-solid fa-circle-check text-green-600 mr-1"></i> Concluído / Finalizado</span>
+                        <span class="bg-white px-2 py-0.5 rounded text-xs shadow-sm">2</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 relative opacity-80">
+                            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-semibold">Manutenção</span>
+                            <h4 class="font-bold text-sm mt-1">Ajuste e Instalação de Braço</h4>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user mr-1"></i> New Arms</p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                                <span class="font-bold text-green-700">R$ 200,00</span>
+                                <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-bold">Pago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 3: ORÇAMENTOS E COMPRAS -->
+        <section id="tab-orcamentos" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-slateDark"><i class="fa-solid fa-cart-shopping text-greenMain mr-2"></i> Orçamentos e Compras Necessárias</h2>
+                    <p class="text-xs text-slate-500">Controle o que a empresa precisa comprar em ferramentas, insumos e EPIs com melhor custo-benefício.</p>
+                </div>
+                <button onclick="alert('Item de orçamento adicionado com sucesso!')" class="bg-greenMain text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-700 transition shadow"><i class="fa-solid fa-plus mr-1"></i> Adicionar Item</button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="bg-slate-50 text-slate-700 uppercase text-xs border-b border-slate-200">
+                            <tr>
+                                <th class="p-3">Item / Equipamento</th>
+                                <th class="p-3">Categoria</th>
+                                <th class="p-3">Marca Sugerida</th>
+                                <th class="p-3">Custo Estimado</th>
+                                <th class="p-3 text-center">Status Orçamento</th>
+                                <th class="p-3 text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slateDark">Roçadeira Lateral Profissional</td>
+                                <td class="p-3 text-slate-600">Jardinagem</td>
+                                <td class="p-3 text-slate-600 font-semibold">Toyama / Stihl</td>
+                                <td class="p-3 text-green-700 font-bold">R$ 1.200,00</td>
+                                <td class="p-3 text-center"><span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-medium">Cotando Preço</span></td>
+                                <td class="p-3 text-center">
+                                    <button onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slateDark">Soprador de Folhas Costal</td>
+                                <td class="p-3 text-slate-600">Manutenção de Jardins</td>
+                                <td class="p-3 text-slate-600 font-semibold">Makita / Trapp</td>
+                                <td class="p-3 text-green-700 font-bold">R$ 850,00</td>
+                                <td class="p-3 text-center"><span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-medium">Aprovado</span></td>
+                                <td class="p-3 text-center">
+                                    <button onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slateDark">Kit EPIs (Óculos, Luvas e Abafador)</td>
+                                <td class="p-3 text-slate-600">Segurança Equipe</td>
+                                <td class="p-3 text-slate-600 font-semibold">Variados</td>
+                                <td class="p-3 text-green-700 font-bold">R$ 180,00</td>
+                                <td class="p-3 text-center"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-medium">Comprado</span></td>
+                                <td class="p-3 text-center">
+                                    <button onclick="this.closest('tr').remove()" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 4: AGENDA E DADOS FINANCEIROS REAIS -->
+        <section id="tab-agenda" class="tab-content hidden space-y-6">
+            <div>
+                <h2 class="text-xl font-bold text-slateDark"><i class="fa-solid fa-wallet text-greenMain mr-2"></i> Agenda de Clientes & Financeiro Real</h2>
+                <p class="text-xs text-slate-500">Dados operacionais integrados da ALT Prestações de Serviços.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Compromissos / Clientes -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slateDark border-b pb-2 flex justify-between items-center">
+                        <span><i class="fa-solid fa-calendar-days text-greenMain mr-2"></i> Compromissos e Pagamentos</span>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">8 Registros</span>
+                    </h3>
+                    <div class="divide-y divide-slate-100 text-sm max-h-80 overflow-y-auto">
+                        <div class="py-2.5 flex justify-between items-center"><span>Fábio</span><span class="font-bold text-green-700">R$ 300,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Carlinhos Escap.</span><span class="font-bold text-green-700">R$ 150,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Gordo</span><span class="font-bold text-green-700">R$ 200,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Max (Lolipop)</span><span class="font-bold text-green-700">R$ 80,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Mauro</span><span class="font-bold text-green-700">R$ 230,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Andreia</span><span class="font-bold text-green-700">R$ 220,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>Unicesumar</span><span class="font-bold text-green-700">R$ 200,00</span></div>
+                        <div class="py-2.5 flex justify-between items-center"><span>New Arms</span><span class="font-bold text-green-700">R$ 200,00</span></div>
+                    </div>
+                </div>
+
+                <!-- Contas a Receber -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slateDark border-b pb-2 flex justify-between items-center">
+                        <span><i class="fa-solid fa-file-invoice-dollar text-greenMain mr-2"></i> Contas a Receber / Faturamento</span>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-semibold">Abertas</span>
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slateDark">Bob Kids</p>
+                                <p class="text-xs text-slate-500">Serviço de Salão de Festas / Limpeza</p>
+                            </div>
+                            <span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded text-xs font-semibold">A Faturar</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slateDark">Adriana (Posto de Gasolina)</p>
+                                <p class="text-xs text-slate-500">Previsão de recebimento: 08/10</p>
+                            </div>
+                            <span class="font-bold text-green-700">R$ 220,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 5: FROTA E FERRAMENTAL -->
+        <section id="tab-frota" class="tab-content hidden space-y-6">
+            <div>
+                <h2 class="text-xl font-bold text-slateDark"><i class="fa-solid fa-truck-pickup text-greenMain mr-2"></i> Gestão de Frota e Ferramental de Campo</h2>
+                <p class="text-xs text-slate-500">Acompanhamento do veículo de trabalho e máquinas de jardinagem.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card Frota Strada -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex items-center space-x-3 border-b pb-3">
+                        <div class="bg-greenMain text-white p-3 rounded-lg"><i class="fa-solid fa-truck-pickup text-xl"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slateDark">Fiat Strada (Picape da Empresa)</h3>
+                            <p class="text-xs text-slate-500">Veículo principal de transporte de equipes e ferramentas</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm text-slate-700">
+                        <div class="flex justify-between py-1 border-b border-slate-100"><span>Quilometragem Atual:</span><span class="font-semibold">48.500 km</span></div>
+                        <div class="flex justify-between py-1 border-b border-slate-100"><span>Próxima Troca de Óleo:</span><span class="font-semibold text-amber-600">50.000 km</span></div>
+                        <div class="flex justify-between py-1 border-b border-slate-100"><span>Revisão de Freios e Suspensão:</span><span class="font-semibold text-emerald-600 em-ordem">Em Ordem / OK</span></div>
+                    </div>
+                </div>
+
+                <!-- Card Marcas Ferramentas -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex items-center space-x-3 border-b pb-3">
+                        <div class="bg-slateDark text-white p-3 rounded-lg"><i class="fa-solid fa-screwdriver-wrench text-xl"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slateDark">Equipamentos de Jardinagem</h3>
+                            <p class="text-xs text-slate-500">Padrão de qualidade e marcas de confiança</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-slate-50 p-3 rounded border text-center"><span class="font-bold block text-slateDark">Makita</span>Ferramentas Elétricas</div>
+                        <div class="bg-slate-50 p-3 rounded border text-center"><span class="font-bold block text-slateDark">Stihl</span>Motores e Roçadeiras</div>
+                        <div class="bg-slate-50 p-3 rounded border text-center"><span class="font-bold block text-slateDark">Toyama</span>Equipamentos a Combustão</div>
+                        <div class="bg-slate-50 p-3 rounded border text-center"><span class="font-bold block text-slateDark">Trapp</span>Cortadores de Grama</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-slate-800 text-slate-400 py-4 mt-auto text-xs text-center">
+        <p>&copy; 2026 ALT Prestações de Serviços. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- SCRIPT DE NAVEGAÇÃO ENTRE ABAS -->
+    <script>
+        function switchTab(tabId) {
+            // Esconde todas as abas
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Mostra a aba selecionada
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            // Remove o estilo ativo de todos os botões
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-greenMain', 'text-white');
+                btn.classList.add('bg-emerald-900', 'text-emerald-100');
+            });
+            // Ativa o botão clicado
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('bg-emerald-900', 'text-emerald-100');
+            activeBtn.classList.add('bg-greenMain', 'text-white');
+        }
+    </script>
+</body>
+</html>
